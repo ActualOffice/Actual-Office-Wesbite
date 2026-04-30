@@ -244,11 +244,18 @@
       max-width: 34rem;
       font-size: clamp(0.95rem, 1.2vw, 1.05rem);
       line-height: 1.18;
-      font-weight: 300;
       letter-spacing: 0;
       hyphens: none;
       word-break: normal;
       overflow-wrap: normal;
+    }
+
+    .about-copy-inner {
+      font-weight: 300;
+    }
+
+    .contact-copy-inner {
+      font-weight: 700;
     }
 
     .about-copy-inner p,
@@ -273,11 +280,12 @@
     .about-link,
     .contact-link {
       position: absolute;
-      bottom: 0;
+      bottom: 2px;
       font-size: clamp(1.1rem, 1.8vw, 1.35rem);
-      line-height: 1;
+      line-height: 1.15;
       color: #050505;
       font-weight: 700;
+      padding-bottom: 8px;
     }
 
     .about-link.left,
@@ -371,6 +379,11 @@
       .nav-square.right {
         right: 16px;
       }
+
+      .about-link,
+      .contact-link {
+        padding-bottom: 10px;
+      }
     }
   </style>
 </head>
@@ -392,81 +405,21 @@
     <div class="stage">
       <div class="panel">
         <div class="slideshow" aria-label="Actual Office selected work">
-          <figure class="slide is-active">
-            <div class="slide-frame">
-              <img src="images/01_AO_CO.jpg" alt="Actual Office project image 1">
-            </div>
-          </figure>
-          <figure class="slide">
-            <div class="slide-frame">
-              <img src="images/02_AO_CO.jpg" alt="Actual Office project image 2">
-            </div>
-          </figure>
-          <figure class="slide">
-            <div class="slide-frame">
-              <img src="images/03_AO_M1.jpg" alt="Actual Office project image 3">
-            </div>
-          </figure>
-          <figure class="slide">
-            <div class="slide-frame">
-              <img src="images/04_AO_CO.jpg" alt="Actual Office project image 4">
-            </div>
-          </figure>
-          <figure class="slide">
-            <div class="slide-frame">
-              <img src="images/05_AO_CO.jpg" alt="Actual Office project image 5">
-            </div>
-          </figure>
-          <figure class="slide">
-            <div class="slide-frame">
-              <img src="images/06_AO_PR.jpg" alt="Actual Office project image 6">
-            </div>
-          </figure>
-          <figure class="slide">
-            <div class="slide-frame">
-              <img src="images/07_AO_CO.jpg" alt="Actual Office project image 7">
-            </div>
-          </figure>
-          <figure class="slide">
-            <div class="slide-frame">
-              <img src="images/08_AO_PR.jpg" alt="Actual Office project image 8">
-            </div>
-          </figure>
-          <figure class="slide">
-            <div class="slide-frame">
-              <img src="images/09_AO_CO.jpg" alt="Actual Office project image 9">
-            </div>
-          </figure>
-          <figure class="slide">
-            <div class="slide-frame">
-              <img src="images/10_AO_CO.jpg" alt="Actual Office project image 10">
-            </div>
-          </figure>
-          <figure class="slide">
-            <div class="slide-frame">
-              <img src="images/11_AO_CO.jpg" alt="Actual Office project image 11">
-            </div>
-          </figure>
-          <figure class="slide">
-            <div class="slide-frame">
-              <img src="images/12_AO_CO.jpg" alt="Actual Office project image 12">
-            </div>
-          </figure>
-          <figure class="slide">
-            <div class="slide-frame">
-              <img src="images/13_AO_PR.jpg" alt="Actual Office project image 13">
-            </div>
-          </figure>
-          <figure class="slide">
-            <div class="slide-frame">
-              <img src="images/14_AO_CO.jpg" alt="Actual Office project image 14">
-            </div>
-          </figure>
-          <figure class="slide">
-            <div class="slide-frame">
-              <img src="images/15_AO_CO.jpg" alt="Actual Office project image 15">
-            </div>
-          </figure>
+          <figure class="slide is-active"><div class="slide-frame"><img src="images/01_AO_CO.jpg" alt="Actual Office project image 1"></div></figure>
+          <figure class="slide"><div class="slide-frame"><img src="images/02_AO_CO.jpg" alt="Actual Office project image 2"></div></figure>
+          <figure class="slide"><div class="slide-frame"><img src="images/03_AO_M1.jpg" alt="Actual Office project image 3"></div></figure>
+          <figure class="slide"><div class="slide-frame"><img src="images/04_AO_CO.jpg" alt="Actual Office project image 4"></div></figure>
+          <figure class="slide"><div class="slide-frame"><img src="images/05_AO_CO.jpg" alt="Actual Office project image 5"></div></figure>
+          <figure class="slide"><div class="slide-frame"><img src="images/06_AO_PR.jpg" alt="Actual Office project image 6"></div></figure>
+          <figure class="slide"><div class="slide-frame"><img src="images/07_AO_CO.jpg" alt="Actual Office project image 7"></div></figure>
+          <figure class="slide"><div class="slide-frame"><img src="images/08_AO_PR.jpg" alt="Actual Office project image 8"></div></figure>
+          <figure class="slide"><div class="slide-frame"><img src="images/09_AO_CO.jpg" alt="Actual Office project image 9"></div></figure>
+          <figure class="slide"><div class="slide-frame"><img src="images/10_AO_CO.jpg" alt="Actual Office project image 10"></div></figure>
+          <figure class="slide"><div class="slide-frame"><img src="images/11_AO_CO.jpg" alt="Actual Office project image 11"></div></figure>
+          <figure class="slide"><div class="slide-frame"><img src="images/12_AO_CO.jpg" alt="Actual Office project image 12"></div></figure>
+          <figure class="slide"><div class="slide-frame"><img src="images/13_AO_PR.jpg" alt="Actual Office project image 13"></div></figure>
+          <figure class="slide"><div class="slide-frame"><img src="images/14_AO_CO.jpg" alt="Actual Office project image 14"></div></figure>
+          <figure class="slide"><div class="slide-frame"><img src="images/15_AO_CO.jpg" alt="Actual Office project image 15"></div></figure>
         </div>
 
         <div class="about-panel" id="aboutPanel">
@@ -528,8 +481,6 @@
     ];
     const slideshow = document.querySelector('.slideshow');
     const slides = Array.from(document.querySelectorAll('.slide'));
-    const aboutPanel = document.getElementById('aboutPanel');
-    const contactPanel = document.getElementById('contactPanel');
     let activeIndex = 0;
     let slideshowTimeout;
 
@@ -588,14 +539,6 @@
         event.stopPropagation();
         openContact();
       });
-    });
-
-    aboutPanel.addEventListener('click', (event) => {
-      event.stopPropagation();
-    });
-
-    contactPanel.addEventListener('click', (event) => {
-      event.stopPropagation();
     });
 
     document.addEventListener('click', (event) => {

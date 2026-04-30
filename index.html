@@ -102,7 +102,7 @@
       font-size: 2rem;
       line-height: 1;
       font-weight: 700;
-      z-index: 5;
+      z-index: 6;
     }
 
     .nav-square.left {
@@ -154,7 +154,8 @@
       display: block;
     }
 
-    .about-panel {
+    .about-panel,
+    .contact-panel {
       position: absolute;
       inset: 0;
       opacity: 0;
@@ -170,32 +171,39 @@
     }
 
     .page.is-about .slideshow,
-    .page.is-about .overlay-title {
+    .page.is-about .overlay-title,
+    .page.is-contact .slideshow,
+    .page.is-contact .overlay-title {
       opacity: 0;
       pointer-events: none;
     }
 
-    .page.is-about .about-panel {
+    .page.is-about .about-panel,
+    .page.is-contact .contact-panel {
       opacity: 1;
       pointer-events: auto;
     }
 
-    .about-edge {
+    .about-edge,
+    .contact-edge {
       position: absolute;
       top: 0;
       font-size: clamp(1.1rem, 1.8vw, 1.35rem);
       line-height: 1;
     }
 
-    .about-edge.left {
+    .about-edge.left,
+    .contact-edge.left {
       left: 0;
     }
 
-    .about-edge.right {
+    .about-edge.right,
+    .contact-edge.right {
       right: 0;
     }
 
-    .about-copy {
+    .about-copy,
+    .contact-copy {
       position: absolute;
       left: 0;
       right: 0;
@@ -208,7 +216,22 @@
       text-align: center;
     }
 
-    .about-link {
+    .contact-copy {
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .contact-email,
+    .contact-address {
+      margin: 0;
+    }
+
+    .contact-address {
+      line-height: 1.2;
+    }
+
+    .about-link,
+    .contact-link {
       position: absolute;
       bottom: 0;
       font-size: clamp(1.1rem, 1.8vw, 1.35rem);
@@ -216,11 +239,13 @@
       color: #050505;
     }
 
-    .about-link.left {
+    .about-link.left,
+    .contact-link.left {
       left: 0;
     }
 
-    .about-link.right {
+    .about-link.right,
+    .contact-link.right {
       right: 0;
     }
 
@@ -240,6 +265,10 @@
       letter-spacing: -0.06em;
       font-weight: 400;
       white-space: nowrap;
+    }
+
+    .bottom-contact {
+      cursor: none;
     }
 
     @media (max-width: 900px) {
@@ -287,11 +316,13 @@
         white-space: nowrap;
       }
 
-      .about-panel {
+      .about-panel,
+      .contact-panel {
         font-size: 1rem;
       }
 
-      .about-copy {
+      .about-copy,
+      .contact-copy {
         top: 0;
         bottom: 0;
       }
@@ -382,8 +413,23 @@
           <p class="about-copy">
             Actual Office is a design and architecture studio delivering considered designs at all scales. Conceptual clarity, craftsmanship and human experience guide everything we do.<br><br>Working closely with specialist makers, we choose materials for their tactile qualities and their ability to weather, patinate and carry the traces of time, creating spaces that enhance the everyday.
           </p>
-          <a class="about-link left" href="mailto:hello@actualoffice.com">Contact</a>
+          <button class="about-link left bottom-contact" id="contactButtonAbout" type="button">Contact</button>
           <a class="about-link right" href="https://www.instagram.com/actualoffice/" target="_blank" rel="noreferrer">Instagram</a>
+        </div>
+
+        <div class="contact-panel" id="contactPanel">
+          <div class="contact-edge left">Actual</div>
+          <div class="contact-edge right">Office</div>
+          <div class="contact-copy">
+            <p class="contact-email">mail@actualoffice.com</p>
+            <p class="contact-address">
+              42 Theobalds Road<br>
+              London<br>
+              WC1X 8NW
+            </p>
+          </div>
+          <button class="contact-link left" id="contactButtonBottom" type="button">Contact</button>
+          <a class="contact-link right" href="https://www.instagram.com/actualoffice/" target="_blank" rel="noreferrer">Instagram</a>
         </div>
       </div>
 
@@ -401,14 +447,35 @@
       document.getElementById('aboutButtonLeft'),
       document.getElementById('aboutButtonRight')
     ];
+    const contactButtons = [
+      document.getElementById('contactButtonAbout'),
+      document.getElementById('contactButtonBottom')
+    ];
     const slideshow = document.querySelector('.slideshow');
     const slides = Array.from(document.querySelectorAll('.slide'));
+    const aboutPanel = document.getElementById('aboutPanel');
+    const contactPanel = document.getElementById('contactPanel');
     let activeIndex = 0;
 
     function showSlide(index) {
       slides[activeIndex].classList.remove('is-active');
       activeIndex = (index + slides.length) % slides.length;
       slides[activeIndex].classList.add('is-active');
+    }
+
+    function openAbout() {
+      page.classList.remove('is-contact');
+      page.classList.add('is-about');
+    }
+
+    function openContact() {
+      page.classList.remove('is-about');
+      page.classList.add('is-contact');
+    }
+
+    function closePanels() {
+      page.classList.remove('is-about');
+      page.classList.remove('is-contact');
     }
 
     document.addEventListener('mousemove', (event) => {
@@ -421,26 +488,42 @@
     });
 
     aboutButtons.forEach((button) => {
-      button.addEventListener('click', () => {
-        page.classList.add('is-about');
+      button.addEventListener('click', (event) => {
+        event.stopPropagation();
+        openAbout();
       });
     });
 
+    contactButtons.forEach((button) => {
+      button.addEventListener('click', (event) => {
+        event.stopPropagation();
+        openContact();
+      });
+    });
+
+    aboutPanel.addEventListener('click', (event) => {
+      event.stopPropagation();
+    });
+
+    contactPanel.addEventListener('click', (event) => {
+      event.stopPropagation();
+    });
+
     document.addEventListener('click', (event) => {
-      if (!page.classList.contains('is-about')) {
+      if (!page.classList.contains('is-about') && !page.classList.contains('is-contact')) {
         return;
       }
 
-      if (aboutButtons.includes(event.target)) {
+      if (aboutButtons.includes(event.target) || contactButtons.includes(event.target)) {
         return;
       }
 
-      page.classList.remove('is-about');
+      closePanels();
     });
 
     if (slideshow) {
       slideshow.addEventListener('click', () => {
-        if (page.classList.contains('is-about')) {
+        if (page.classList.contains('is-about') || page.classList.contains('is-contact')) {
           return;
         }
         showSlide(activeIndex + 1);
@@ -449,7 +532,7 @@
 
     if (slides.length > 1) {
       window.setInterval(() => {
-        if (page.classList.contains('is-about')) {
+        if (page.classList.contains('is-about') || page.classList.contains('is-contact')) {
           return;
         }
         showSlide(activeIndex + 1);

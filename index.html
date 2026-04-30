@@ -465,7 +465,7 @@
     }
 
     function getSlideDuration() {
-      return activeIndex === 0 ? 4700 : 3700;
+      return activeIndex === 0 ? 4200 : 3200;
     }
 
     function scheduleNextSlide() {
@@ -490,11 +490,6 @@
     function openContact() {
       page.classList.remove('is-about');
       page.classList.add('is-contact');
-    }
-
-    function closePanels() {
-      page.classList.remove('is-about');
-      page.classList.remove('is-contact');
     }
 
     document.addEventListener('mousemove', (event) => {
@@ -529,15 +524,18 @@
     });
 
     document.addEventListener('click', (event) => {
-      if (!page.classList.contains('is-about') && !page.classList.contains('is-contact')) {
-        return;
-      }
-
       if (aboutButtons.includes(event.target) || contactButtons.includes(event.target)) {
         return;
       }
 
-      closePanels();
+      if (page.classList.contains('is-contact')) {
+        openAbout();
+        return;
+      }
+
+      if (page.classList.contains('is-about')) {
+        page.classList.remove('is-about');
+      }
     });
 
     if (slideshow) {

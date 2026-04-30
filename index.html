@@ -147,7 +147,6 @@
     .slide {
       position: absolute;
       inset: 0;
-      margin: 0;
       opacity: 0;
       transition: opacity 1.1s ease;
     }
@@ -172,7 +171,6 @@
       height: 100%;
       object-fit: contain;
       object-position: center center;
-      flex: 0 0 auto;
     }
 
     .about-panel,
@@ -183,9 +181,9 @@
       pointer-events: none;
       transition: opacity 280ms ease;
       color: #050505;
-      padding: 0;
       display: flex;
       flex-direction: column;
+      padding: 0 0 22px;
     }
 
     .page.is-about .slideshow,
@@ -224,18 +222,11 @@
     .about-copy,
     .contact-copy {
       position: absolute;
-      left: 0;
-      right: 0;
-      top: 0;
-      bottom: 0;
-      margin: 0;
+      inset: 0;
       display: flex;
       align-items: center;
       justify-content: center;
       text-align: center;
-    }
-
-    .about-copy {
       padding: 0 28px;
     }
 
@@ -254,7 +245,10 @@
       font-weight: 300;
     }
 
-    .contact-copy-inner {
+    .contact-copy-inner,
+    .contact-copy-inner p,
+    .contact-email,
+    .contact-address {
       font-weight: 700;
     }
 
@@ -268,24 +262,17 @@
       margin-top: 28px;
     }
 
-    .contact-copy {
-      padding: 0 28px;
-    }
-
-    .contact-email,
-    .contact-address {
-      margin: 0;
-    }
-
     .about-link,
     .contact-link {
       position: absolute;
-      bottom: 2px;
+      bottom: 10px;
+      display: inline-block;
       font-size: clamp(1.1rem, 1.8vw, 1.35rem);
-      line-height: 1.15;
+      line-height: 1.3;
       color: #050505;
       font-weight: 700;
-      padding-bottom: 8px;
+      padding: 0 0 4px;
+      white-space: nowrap;
     }
 
     .about-link.left,
@@ -352,13 +339,11 @@
         position: absolute;
         inset: 50% auto auto 50%;
         transform: translate(-50%, -50%);
-        margin-top: 0;
         text-align: center;
       }
 
       .overlay-title span {
         font-size: clamp(2.2rem, 8vw, 4.1rem);
-        white-space: nowrap;
       }
 
       .about-copy-inner,
@@ -382,7 +367,8 @@
 
       .about-link,
       .contact-link {
-        padding-bottom: 10px;
+        bottom: 12px;
+        line-height: 1.35;
       }
     }
   </style>

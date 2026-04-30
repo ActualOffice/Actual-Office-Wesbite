@@ -83,17 +83,9 @@
     }
 
     .landing-stage {
-      position: relative;
-      width: min(1120px, 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 32px;
-    }
-
-    .landing .overlay-title {
-      color: var(--text);
-      text-shadow: none;
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
     }
 
     .page {
@@ -286,13 +278,20 @@
     }
 
     .overlay-title {
-      position: absolute;
-      inset: 50% auto auto 50%;
+      position: fixed;
+      left: 50%;
+      top: 50%;
       transform: translate(-50%, -50%);
       z-index: 3;
       pointer-events: none;
       color: #ffffff;
       text-shadow: 0 2px 14px rgba(0, 0, 0, 0.18);
+      width: max-content;
+    }
+
+    .landing .overlay-title {
+      color: var(--text);
+      text-shadow: none;
     }
 
     .overlay-title span {
@@ -333,13 +332,6 @@
 
       .panel {
         width: 100%;
-      }
-
-      .overlay-title {
-        position: absolute;
-        inset: 50% auto auto 50%;
-        transform: translate(-50%, -50%);
-        text-align: center;
       }
 
       .overlay-title span {

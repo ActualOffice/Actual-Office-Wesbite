@@ -10,6 +10,9 @@
       --bg: #ffffff;
       --text: #050505;
       --sans: "Helvetica Neue", Arial, sans-serif;
+      --page-pad: 32px;
+      --panel-max-width: 620px;
+      --panel-ratio: 0.75;
     }
 
     * {
@@ -61,19 +64,21 @@
       border-radius: 50%;
       background: #000000;
       pointer-events: none;
-      z-index: 40;
+      z-index: 50;
       transform: translate(-50%, -50%);
+    }
+
+    .landing,
+    .page {
+      min-height: 100vh;
+      padding: var(--page-pad);
     }
 
     .landing {
       position: fixed;
       inset: 0;
-      background: #ffffff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       z-index: 20;
-      cursor: none;
+      background: #ffffff;
       transition: opacity 1.8s ease;
     }
 
@@ -82,19 +87,16 @@
       pointer-events: none;
     }
 
-    .landing-stage {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
+    .landing-stage,
+    .stage {
+      width: 100%;
+      min-height: calc(100dvh - (var(--page-pad) * 2));
+      display: grid;
+      place-items: center;
     }
 
     .page {
-      min-height: 100vh;
       position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 32px;
     }
 
     .nav-square {
@@ -103,7 +105,7 @@
       font-size: 2rem;
       line-height: 1;
       font-weight: 700;
-      z-index: 6;
+      z-index: 10;
     }
 
     .nav-square.left {
@@ -114,21 +116,22 @@
       right: 28px;
     }
 
-    .stage {
+    .panel-shell {
       position: relative;
-      width: min(1120px, 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      width: min(
+        var(--panel-max-width),
+        46vw,
+        calc((100dvh - (var(--page-pad) * 2)) * var(--panel-ratio))
+      );
+      aspect-ratio: 3 / 4;
     }
 
     .panel {
-      position: relative;
-      width: min(620px, 46vw);
-      aspect-ratio: 3 / 4;
+      position: absolute;
+      inset: 0;
       overflow: hidden;
-      z-index: 2;
       background: #ffffff;
+      z-index: 2;
     }
 
     .slideshow {
@@ -153,8 +156,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 100%;
-      height: 100%;
     }
 
     .slide img {
@@ -165,6 +166,31 @@
       max-height: 85%;
       object-fit: contain;
       object-position: center center;
+    }
+
+    .overlay-title {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 3;
+      pointer-events: none;
+      width: max-content;
+      color: #ffffff;
+      text-shadow: 0 2px 14px rgba(0, 0, 0, 0.18);
+    }
+
+    .landing .overlay-title {
+      color: var(--text);
+      text-shadow: none;
+    }
+
+    .overlay-title span {
+      font-size: clamp(3.1rem, 6vw, 5.8rem);
+      line-height: 0.95;
+      letter-spacing: -0.06em;
+      font-weight: 400;
+      white-space: nowrap;
     }
 
     .about-panel,
@@ -178,6 +204,7 @@
       display: flex;
       flex-direction: column;
       padding: 0 0 22px;
+      z-index: 4;
     }
 
     .page.is-about .slideshow,
@@ -279,71 +306,28 @@
       right: 0;
     }
 
-    .overlay-title {
-      position: fixed;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 3;
-      pointer-events: none;
-      color: #ffffff;
-      text-shadow: 0 2px 14px rgba(0, 0, 0, 0.18);
-      width: max-content;
-    }
-
-    .landing .overlay-title {
-      color: var(--text);
-      text-shadow: none;
-    }
-
-    .overlay-title span {
-      font-size: clamp(3.1rem, 6vw, 5.8rem);
-      line-height: 0.95;
-      letter-spacing: -0.06em;
-      font-weight: 400;
-      white-space: nowrap;
-    }
-
     .bottom-button {
       cursor: none;
     }
 
     @media (max-width: 900px) {
-      .page {
-        padding: 20px;
-      }
-
-      .stage {
-        width: 100%;
+      :root {
+        --page-pad: 20px;
       }
     }
 
     @media (max-width: 640px) {
+      :root {
+        --page-pad: 16px;
+      }
+
       body {
         overflow: auto;
       }
 
-      .page {
+      .page,
+      .landing {
         min-height: 100dvh;
-      }
-
-      .stage {
-        flex-direction: column;
-        gap: 20px;
-      }
-
-      .panel {
-        width: 100%;
-      }
-
-      .overlay-title span {
-        font-size: clamp(2.2rem, 8vw, 4.1rem);
-      }
-
-      .about-copy-inner,
-      .contact-copy-inner {
-        font-size: 0.96rem;
-        line-height: 1.2;
       }
 
       .nav-square {
@@ -359,6 +343,23 @@
         right: 16px;
       }
 
+      .panel-shell {
+        width: min(
+          100%,
+          calc((100dvh - (var(--page-pad) * 2)) * var(--panel-ratio))
+        );
+      }
+
+      .overlay-title span {
+        font-size: clamp(2.2rem, 8vw, 4.1rem);
+      }
+
+      .about-copy-inner,
+      .contact-copy-inner {
+        font-size: 0.96rem;
+        line-height: 1.2;
+      }
+
       .about-link,
       .contact-link {
         bottom: 12px;
@@ -372,8 +373,10 @@
 
   <div class="landing" id="landing">
     <div class="landing-stage">
-      <div class="overlay-title" aria-hidden="true">
-        <span>Actual.</span>
+      <div class="panel-shell" aria-hidden="true">
+        <div class="overlay-title">
+          <span>Actual.</span>
+        </div>
       </div>
     </div>
   </div>
@@ -383,67 +386,69 @@
     <button class="nav-square right" id="aboutButtonRight" aria-label="Open about">O</button>
 
     <div class="stage">
-      <div class="panel">
-        <div class="slideshow" aria-label="Actual Office selected work">
-          <figure class="slide is-active"><div class="slide-frame"><img src="images/01_AO_CO.jpg" alt="Actual Office project image 1"></div></figure>
-          <figure class="slide"><div class="slide-frame"><img src="images/02_AO_CO.jpg" alt="Actual Office project image 2"></div></figure>
-          <figure class="slide"><div class="slide-frame"><img src="images/03_AO_M1.jpg" alt="Actual Office project image 3"></div></figure>
-          <figure class="slide"><div class="slide-frame"><img src="images/04_AO_CO.jpg" alt="Actual Office project image 4"></div></figure>
-          <figure class="slide"><div class="slide-frame"><img src="images/05_AO_CO.jpg" alt="Actual Office project image 5"></div></figure>
-          <figure class="slide"><div class="slide-frame"><img src="images/06_AO_CO.jpg" alt="Actual Office project image 6"></div></figure>
-          <figure class="slide"><div class="slide-frame"><img src="images/07_AO_PR.jpg" alt="Actual Office project image 7"></div></figure>
-          <figure class="slide"><div class="slide-frame"><img src="images/08_AO_CO.jpg" alt="Actual Office project image 8"></div></figure>
-          <figure class="slide"><div class="slide-frame"><img src="images/09_AO_PR.jpg" alt="Actual Office project image 9"></div></figure>
-          <figure class="slide"><div class="slide-frame"><img src="images/10_AO_CO.jpg" alt="Actual Office project image 10"></div></figure>
-          <figure class="slide"><div class="slide-frame"><img src="images/11_AO_CO.jpg" alt="Actual Office project image 11"></div></figure>
-          <figure class="slide"><div class="slide-frame"><img src="images/12_AO_CO.jpg" alt="Actual Office project image 12"></div></figure>
-          <figure class="slide"><div class="slide-frame"><img src="images/13_AO_CO.jpg" alt="Actual Office project image 13"></div></figure>
-          <figure class="slide"><div class="slide-frame"><img src="images/14_AO_PR.jpg" alt="Actual Office project image 14"></div></figure>
-          <figure class="slide"><div class="slide-frame"><img src="images/15_AO_CO.jpg" alt="Actual Office project image 15"></div></figure>
-          <figure class="slide"><div class="slide-frame"><img src="images/16_AO_CO.jpg" alt="Actual Office project image 16"></div></figure>
-        </div>
-
-        <div class="about-panel" id="aboutPanel">
-          <div class="about-edge left">Actual</div>
-          <div class="about-edge right">Office</div>
-          <div class="about-copy">
-            <div class="about-copy-inner">
-              <p>
-                Actual Office is a design and architecture studio delivering considered designs
-                at all scales. Conceptual clarity, craftsmanship and human experience guide
-                everything we do.
-              </p>
-              <p>
-                Working closely with specialist makers, we choose materials for their tactile
-                qualities and their ability to weather, patinate and carry the traces of time,
-                creating spaces that enhance the everyday.
-              </p>
-            </div>
+      <div class="panel-shell">
+        <div class="panel">
+          <div class="slideshow" aria-label="Actual Office selected work">
+            <figure class="slide is-active"><div class="slide-frame"><img src="images/01_AO_CO.jpg" alt="Actual Office project image 1"></div></figure>
+            <figure class="slide"><div class="slide-frame"><img src="images/02_AO_CO.jpg" alt="Actual Office project image 2"></div></figure>
+            <figure class="slide"><div class="slide-frame"><img src="images/03_AO_M1.jpg" alt="Actual Office project image 3"></div></figure>
+            <figure class="slide"><div class="slide-frame"><img src="images/04_AO_CO.jpg" alt="Actual Office project image 4"></div></figure>
+            <figure class="slide"><div class="slide-frame"><img src="images/05_AO_CO.jpg" alt="Actual Office project image 5"></div></figure>
+            <figure class="slide"><div class="slide-frame"><img src="images/06_AO_CO.jpg" alt="Actual Office project image 6"></div></figure>
+            <figure class="slide"><div class="slide-frame"><img src="images/07_AO_PR.jpg" alt="Actual Office project image 7"></div></figure>
+            <figure class="slide"><div class="slide-frame"><img src="images/08_AO_CO.jpg" alt="Actual Office project image 8"></div></figure>
+            <figure class="slide"><div class="slide-frame"><img src="images/09_AO_PR.jpg" alt="Actual Office project image 9"></div></figure>
+            <figure class="slide"><div class="slide-frame"><img src="images/10_AO_CO.jpg" alt="Actual Office project image 10"></div></figure>
+            <figure class="slide"><div class="slide-frame"><img src="images/11_AO_CO.jpg" alt="Actual Office project image 11"></div></figure>
+            <figure class="slide"><div class="slide-frame"><img src="images/12_AO_CO.jpg" alt="Actual Office project image 12"></div></figure>
+            <figure class="slide"><div class="slide-frame"><img src="images/13_AO_CO.jpg" alt="Actual Office project image 13"></div></figure>
+            <figure class="slide"><div class="slide-frame"><img src="images/14_AO_PR.jpg" alt="Actual Office project image 14"></div></figure>
+            <figure class="slide"><div class="slide-frame"><img src="images/15_AO_CO.jpg" alt="Actual Office project image 15"></div></figure>
+            <figure class="slide"><div class="slide-frame"><img src="images/16_AO_CO.jpg" alt="Actual Office project image 16"></div></figure>
           </div>
-          <button class="about-link left bottom-button" id="contactButtonAbout" type="button">Contact</button>
-          <a class="about-link right" href="https://www.instagram.com/actualoffice/" target="_blank" rel="noreferrer">Instagram</a>
-        </div>
 
-        <div class="contact-panel" id="contactPanel">
-          <div class="contact-edge left">Actual</div>
-          <div class="contact-edge right">Office</div>
-          <div class="contact-copy">
-            <div class="contact-copy-inner">
-              <p class="contact-email">mail@actualoffice.com</p>
-              <p class="contact-address">
-                42 Theobalds Road<br>
-                London<br>
-                WC1X 8NW
-              </p>
+          <div class="about-panel" id="aboutPanel">
+            <div class="about-edge left">Actual</div>
+            <div class="about-edge right">Office</div>
+            <div class="about-copy">
+              <div class="about-copy-inner">
+                <p>
+                  Actual Office is a design and architecture studio delivering considered designs
+                  at all scales. Conceptual clarity, craftsmanship and human experience guide
+                  everything we do.
+                </p>
+                <p>
+                  Working closely with specialist makers, we choose materials for their tactile
+                  qualities and their ability to weather, patinate and carry the traces of time,
+                  creating spaces that enhance the everyday.
+                </p>
+              </div>
             </div>
+            <button class="about-link left bottom-button" id="contactButtonAbout" type="button">Contact</button>
+            <a class="about-link right" href="https://www.instagram.com/actualoffice/" target="_blank" rel="noreferrer">Instagram</a>
           </div>
-          <button class="contact-link left bottom-button" id="aboutButtonContact" type="button">About</button>
-          <a class="contact-link right" href="https://www.instagram.com/actualoffice/" target="_blank" rel="noreferrer">Instagram</a>
-        </div>
-      </div>
 
-      <div class="overlay-title" aria-hidden="true">
-        <span>Actual.</span>
+          <div class="contact-panel" id="contactPanel">
+            <div class="contact-edge left">Actual</div>
+            <div class="contact-edge right">Office</div>
+            <div class="contact-copy">
+              <div class="contact-copy-inner">
+                <p class="contact-email">mail@actualoffice.com</p>
+                <p class="contact-address">
+                  42 Theobalds Road<br>
+                  London<br>
+                  WC1X 8NW
+                </p>
+              </div>
+            </div>
+            <button class="contact-link left bottom-button" id="aboutButtonContact" type="button">About</button>
+            <a class="contact-link right" href="https://www.instagram.com/actualoffice/" target="_blank" rel="noreferrer">Instagram</a>
+          </div>
+        </div>
+
+        <div class="overlay-title" aria-hidden="true">
+          <span>Actual.</span>
+        </div>
       </div>
     </div>
   </div>

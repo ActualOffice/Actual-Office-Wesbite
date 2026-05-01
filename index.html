@@ -310,6 +310,19 @@
       cursor: none;
     }
 
+    @media (hover: none), (pointer: coarse) {
+      body,
+      a,
+      button,
+      .bottom-button {
+        cursor: auto;
+      }
+
+      .cursor-dot {
+        display: none;
+      }
+    }
+
     @media (max-width: 900px) {
       :root {
         --page-pad: 20px;
@@ -505,6 +518,7 @@
     }
 
     document.addEventListener('mousemove', (event) => {
+      if (!cursorDot) return;
       cursorDot.style.left = `${event.clientX}px`;
       cursorDot.style.top = `${event.clientY}px`;
     });

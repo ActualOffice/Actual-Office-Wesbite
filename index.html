@@ -139,6 +139,38 @@
       right: 28px;
     }
 
+    .site-nav {
+      position: fixed;
+      top: 58px;
+      left: 28px;
+      z-index: 11;
+      background: #fff;
+      padding: 4px 8px;
+      margin-left: -8px;
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+
+    .site-nav.right {
+      right: 28px;
+      left: auto;
+      margin-left: 0;
+      margin-right: -8px;
+      text-align: right;
+    }
+
+    .site-nav a {
+      display: block;
+      padding: 5px 0;
+    }
+
+    .site-nav a:hover,
+    .site-nav a:focus-visible,
+    .site-nav a[aria-current="page"] {
+      text-decoration: underline;
+      text-underline-offset: 0.2em;
+    }
+
     .panel-shell {
       position: relative;
       width: min(
@@ -329,15 +361,10 @@
       right: 0;
     }
 
-    .bottom-button {
-      cursor: none;
-    }
-
     @media (hover: none), (pointer: coarse) {
       body,
       a,
-      button,
-      .bottom-button {
+      button {
         cursor: auto;
       }
 
@@ -376,6 +403,15 @@
       }
 
       .nav-square.right {
+        right: 16px;
+      }
+
+      .site-nav {
+        top: 48px;
+        left: 16px;
+      }
+
+      .site-nav.right {
         right: 16px;
       }
 
@@ -418,8 +454,13 @@
   </div>
 
   <div class="page">
-    <button class="nav-square left" id="aboutButtonLeft" aria-label="Open about">A</button>
-    <button class="nav-square right" id="aboutButtonRight" aria-label="Open about">O</button>
+    <button class="nav-square left" type="button" aria-label="A — navigation" aria-controls="siteNav" aria-expanded="false">A</button>
+    <button class="nav-square right" type="button" aria-label="O — navigation" aria-controls="siteNav" aria-expanded="false">O</button>
+    <nav class="site-nav" id="siteNav" aria-label="Main navigation" hidden>
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
 
    <div class="stage">
   <div class="panel-shell">
@@ -447,7 +488,7 @@
     <figure class="slide"><div class="slide-frame"><img src="images/16_AO_CO.jpg" alt="Actual Office Cherry Orchard Green Post Box"></div></figure>
 </div>
 
-          <div class="about-panel" id="aboutPanel">
+          <div class="about-panel" id="aboutPanel" inert>
             <div class="about-edge left">Actual</div>
             <div class="about-edge right">Office</div>
             <div class="about-copy">
@@ -467,11 +508,11 @@
                 </p>
               </div>
             </div>
-            <button class="about-link left bottom-button" id="contactButtonAbout" type="button">Contact</button>
+            <a class="about-link left" href="#contact">Contact</a>
             <a class="about-link right" href="https://www.instagram.com/actual.office/" target="_blank" rel="noreferrer">Instagram</a>
           </div>
 
-          <div class="contact-panel" id="contactPanel">
+          <div class="contact-panel" id="contactPanel" inert>
             <div class="contact-edge left">Actual</div>
             <div class="contact-edge right">Office</div>
             <div class="contact-copy">
@@ -484,7 +525,7 @@
                 </p>
               </div>
             </div>
-            <button class="contact-link left bottom-button" id="aboutButtonContact" type="button">About</button>
+            <a class="contact-link left" href="#about">About</a>
             <a class="contact-link right" href="https://www.instagram.com/actual.office/" target="_blank" rel="noreferrer">Instagram</a>
           </div>
         </div>
@@ -500,14 +541,12 @@
     const cursorDot = document.getElementById('cursorDot');
     const landing = document.getElementById('landing');
     const page = document.querySelector('.page');
-    const aboutButtons = [
-      document.getElementById('aboutButtonLeft'),
-      document.getElementById('aboutButtonRight'),
-      document.getElementById('aboutButtonContact')
-    ];
-    const contactButtons = [
-      document.getElementById('contactButtonAbout')
-    ];
+    const navButtons = document.querySelectorAll('.nav-square');
+    const siteNav = document.getElementById('siteNav');
+    const navLinks = siteNav.querySelectorAll('a');
+    const aboutPanel = document.getElementById('aboutPanel');
+    const contactPanel = document.getElementById('contactPanel');
+    let activeNavButton;
     const slideshow = document.querySelector('.slideshow');
     const slides = Array.from(document.querySelectorAll('.slide'));
     let activeIndex = 0;
@@ -537,14 +576,31 @@
       }, getSlideDuration());
     }
 
-    function openAbout() {
-      page.classList.remove('is-contact');
-      page.classList.add('is-about');
+    function showPage() {
+      const hash = window.location.hash;
+      const isAbout = hash === '#about';
+      const isContact = hash === '#contact';
+      page.classList.toggle('is-about', isAbout);
+      page.classList.toggle('is-contact', isContact);
+      aboutPanel.inert = !isAbout;
+      contactPanel.inert = !isContact;
+      const currentPage = isAbout || isContact ? hash : '#work';
+
+      navLinks.forEach((link) => {
+        if (link.hash === currentPage) {
+          link.setAttribute('aria-current', 'page');
+        } else {
+          link.removeAttribute('aria-current');
+        }
+      });
     }
 
-    function openContact() {
-      page.classList.remove('is-about');
-      page.classList.add('is-contact');
+    function closeNav(restoreFocus = false) {
+      if (!activeNavButton) return;
+      activeNavButton.setAttribute('aria-expanded', 'false');
+      siteNav.hidden = true;
+      if (restoreFocus) activeNavButton.focus();
+      activeNavButton = undefined;
     }
 
     document.addEventListener('mousemove', (event) => {
@@ -557,34 +613,51 @@
       landing.classList.add('hidden');
     });
 
-    aboutButtons.forEach((button) => {
-      button.addEventListener('click', (event) => {
-        event.stopPropagation();
-        openAbout();
+    navButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        if (activeNavButton === button) {
+          closeNav(true);
+          return;
+        }
+
+        closeNav();
+        activeNavButton = button;
+        siteNav.classList.toggle('right', button.classList.contains('right'));
+        button.setAttribute('aria-expanded', 'true');
+        siteNav.hidden = false;
+        navLinks[0].focus();
       });
     });
 
-    contactButtons.forEach((button) => {
-      button.addEventListener('click', (event) => {
-        event.stopPropagation();
-        openContact();
-      });
+    siteNav.addEventListener('click', (event) => {
+      if (event.target.closest('a')) closeNav(true);
     });
 
     document.addEventListener('click', (event) => {
-      if (aboutButtons.includes(event.target) || contactButtons.includes(event.target)) {
-        return;
-      }
+      if (event.target.closest('.nav-square, .site-nav')) return;
 
-      if (page.classList.contains('is-contact')) {
-        openAbout();
-        return;
-      }
-
-      if (page.classList.contains('is-about')) {
-        page.classList.remove('is-about');
+      if (activeNavButton) {
+        closeNav();
+      } else if (!event.target.closest('a')) {
+        if (page.classList.contains('is-contact')) {
+          window.location.hash = '#about';
+        } else if (page.classList.contains('is-about')) {
+          window.location.hash = '#work';
+        }
       }
     });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && activeNavButton) {
+        closeNav(true);
+      }
+    });
+
+    window.addEventListener('hashchange', showPage);
+    if (['#work', '#about', '#contact'].includes(window.location.hash)) {
+      landing.classList.add('hidden');
+    }
+    showPage();
 
     if (slideshow) {
       slideshow.addEventListener('click', () => {

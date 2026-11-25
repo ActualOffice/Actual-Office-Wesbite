@@ -420,10 +420,10 @@
   </div>
 
   <div class="page">
-    <button class="nav-square left" type="button" aria-label="A — navigation" aria-controls="siteNav" aria-expanded="false">A</button>
+    <a class="nav-square left" href="#home" aria-label="A — home slideshow">A</a>
     <button class="nav-square right" type="button" aria-label="O — navigation" aria-controls="siteNav" aria-expanded="false">O</button>
-    <nav class="site-nav" id="siteNav" aria-label="Main navigation" hidden>
-      <a href="#work">Work</a>
+    <nav class="site-nav right" id="siteNav" aria-label="Main navigation" hidden>
+      <a href="work.html">Work</a>
       <a href="#about">About</a>
       <a href="#contact">Contact</a>
     </nav>
@@ -505,7 +505,7 @@
     const cursorDot = document.getElementById('cursorDot');
     const landing = document.getElementById('landing');
     const page = document.querySelector('.page');
-    const navButtons = document.querySelectorAll('.nav-square');
+    const navButtons = document.querySelectorAll('button.nav-square');
     const siteNav = document.getElementById('siteNav');
     const navLinks = siteNav.querySelectorAll('a');
     const aboutPanel = document.getElementById('aboutPanel');
@@ -530,7 +530,8 @@
       page.classList.toggle('is-contact', isContact);
       aboutPanel.inert = !isAbout;
       contactPanel.inert = !isContact;
-      const currentPage = isAbout || isContact ? hash : '#work';
+      const currentPage = isAbout || isContact ? hash : null;
+      if (hash === '#home') landing.classList.add('hidden');
 
       navLinks.forEach((link) => {
         if (link.hash === currentPage) {
@@ -568,11 +569,15 @@
 
         closeNav();
         activeNavButton = button;
-        siteNav.classList.toggle('right', button.classList.contains('right'));
         button.setAttribute('aria-expanded', 'true');
         siteNav.hidden = false;
         navLinks[0].focus();
       });
+    });
+
+    document.querySelector('.nav-square.left').addEventListener('click', () => {
+      closeNav();
+      landing.classList.add('hidden');
     });
 
     siteNav.addEventListener('click', (event) => {
@@ -588,7 +593,7 @@
         if (page.classList.contains('is-contact')) {
           window.location.hash = '#about';
         } else if (page.classList.contains('is-about')) {
-          window.location.hash = '#work';
+          window.location.hash = '#home';
         }
       }
     });
@@ -600,7 +605,7 @@
     });
 
     window.addEventListener('hashchange', showPage);
-    if (['#work', '#about', '#contact'].includes(window.location.hash)) {
+    if (['#home', '#work', '#about', '#contact'].includes(window.location.hash)) {
       landing.classList.add('hidden');
     }
     showPage();

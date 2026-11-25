@@ -431,6 +431,37 @@
         line-height: 1.35;
       }
     }
+
+    .about-copy {
+      position: fixed;
+      inset: 68px auto 68px 28px;
+      width: min(33vw, 38rem);
+      display: grid;
+      align-content: safe center;
+      justify-content: stretch;
+      padding: 0;
+      overflow-y: auto;
+      text-align: left;
+    }
+
+    .about-copy-inner {
+      max-width: none;
+      font-size: 1.1rem;
+      font-weight: 400;
+    }
+
+    @media (max-width: 900px) {
+      .about-copy {
+        width: min(calc(100vw - 56px), 38rem);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .about-copy {
+        left: 16px;
+        width: calc(100vw - 32px);
+      }
+    }
   </style>
 </head>
 <body>
@@ -569,6 +600,7 @@
     }
 
     function showPage() {
+      closeNav(true);
       const hash = window.location.hash;
       const isAbout = hash === '#about';
       const isContact = hash === '#contact';

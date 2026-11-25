@@ -3,9 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Work | Actual Office</title>
-  <link rel="canonical" href="https://actualoffice.com/work.html">
+  <title>Actual Office | Architecture & Interior Design | London & Belfast</title>
+  <meta name="description" content="Actual Office is an architecture and interior design studio based in London and Belfast, working across residential, retail and hospitality projects.">
+  <link rel="canonical" href="https://actualoffice.com/">
   <link rel="icon" type="image/png" href="Favicon.png">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Actual Office",
+  "url": "https://actualoffice.com/",
+  "description": "Actual Office is an architecture and interior design studio based in London and Belfast, working across residential, retail and hospitality projects.",
+  "email": "mail@actualoffice.com",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "42 Theobalds Road",
+    "addressLocality": "London",
+    "postalCode": "WC1X 8NW",
+    "addressCountry": "GB"
+  },
+  "sameAs": [
+    "https://www.instagram.com/actual.office/"
+  ]
+}
+  </script>
+
   <style>
     :root {
       --bg: #ffffff;
@@ -30,6 +52,12 @@
       font-family: var(--sans);
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
+    }
+
+    body {
+      min-height: 100vh;
+      overflow: hidden;
+      cursor: none;
     }
 
     a {
@@ -62,6 +90,37 @@
       pointer-events: none;
       z-index: 50;
       transform: translate(-50%, -50%);
+    }
+
+    .landing,
+    .page {
+      min-height: 100vh;
+      padding: var(--page-pad);
+    }
+
+    .landing {
+      position: fixed;
+      inset: 0;
+      z-index: 20;
+      background: #ffffff;
+      transition: opacity 1.8s ease;
+    }
+
+    .landing.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .landing-stage,
+    .stage {
+      width: 100%;
+      min-height: calc(100dvh - (var(--page-pad) * 2));
+      display: grid;
+      place-items: center;
+    }
+
+    .page {
+      position: relative;
     }
 
     .nav-square {
@@ -106,6 +165,131 @@
       padding: 5px 0;
     }
 
+    .panel-shell {
+      position: relative;
+      width: min(
+        var(--panel-max-width),
+        46vw,
+        calc((100dvh - (var(--page-pad) * 2)) * var(--panel-ratio))
+      );
+      aspect-ratio: 3 / 4;
+    }
+
+    .panel {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      background: #ffffff;
+      z-index: 2;
+    }
+
+    .slideshow {
+      position: absolute;
+      inset: 0;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1.1s ease;
+    }
+
+    .slide.is-active {
+      opacity: 1;
+    }
+
+    .page:not(.is-about, .is-contact) .slide.is-active img {
+      pointer-events: auto;
+    }
+
+    .slide-frame {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .slide img {
+      display: block;
+      width: 85%;
+      height: 85%;
+      max-width: 85%;
+      max-height: 85%;
+      object-fit: contain;
+      object-position: center center;
+    }
+
+    .overlay-title {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 3;
+      pointer-events: none;
+      width: max-content;
+      color: #ffffff;
+      text-shadow: 0 2px 14px rgba(0, 0, 0, 0.18);
+    }
+
+    .landing .overlay-title {
+      color: var(--text);
+      text-shadow: none;
+    }
+
+    .overlay-title span {
+      font-size: clamp(3.1rem, 6vw, 5.8rem);
+      line-height: 0.95;
+      letter-spacing: -0.06em;
+      font-weight: 400;
+      white-space: nowrap;
+    }
+
+    .contact-panel {
+      position: absolute;
+      inset: 45.5% 28px 24px;
+      z-index: 4;
+      display: grid;
+      grid-template-columns: 39% minmax(0, 1fr);
+      grid-template-rows: repeat(2, minmax(min-content, 1fr)) auto;
+      align-items: start;
+      row-gap: 20px;
+      overflow-y: auto;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 280ms ease;
+      font-size: var(--copy-size);
+      font-weight: 400;
+      line-height: 1.2;
+    }
+
+    .contact-panel address,
+    .contact-panel p {
+      margin: 0;
+      font-style: normal;
+    }
+
+    .contact-enquiries,
+    .contact-socials {
+      grid-column: 1;
+    }
+
+    .page.is-about .slideshow,
+    .page.is-about .overlay-title,
+    .page.is-contact .slideshow,
+    .page.is-contact .overlay-title {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .page.is-about .about-panel,
+    .page.is-contact .contact-panel {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
     @media (hover: none), (pointer: coarse) {
       body,
       a,
@@ -118,71 +302,26 @@
       }
     }
 
-    .work-gallery {
-      display: grid;
-      row-gap: 4.5dvh;
-      padding: 11dvh 14% 10dvh;
+    @media (max-width: 900px) {
+      :root {
+        --page-pad: 20px;
+      }
     }
-
-    .work-set {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      align-items: center;
-      min-height: 79dvh;
-    }
-
-    .work-set figure {
-      display: grid;
-      grid-row: 1;
-      align-items: center;
-      width: min(88%, 63.2dvh);
-      height: 79dvh;
-    }
-
-    .work-set .image-a,
-    .work-set .image-c {
-      grid-column: 1;
-      justify-self: start;
-    }
-
-    .work-set .image-b,
-    .work-set .image-d {
-      grid-column: 2;
-      justify-self: end;
-    }
-
-    .work-set .image-c,
-    .work-set .image-d {
-      width: min(136%, 98dvh);
-    }
-
-    .work-set .image-e,
-    .work-set .image-f {
-      justify-self: center;
-      width: min(52%, 41dvh);
-      height: 42dvh;
-    }
-
-    .work-set .image-e { grid-column: 2; }
-    .work-set .image-f { grid-column: 1; }
-
-    .work-set img {
-      display: block;
-      width: 100%;
-      height: 100%;
-      min-width: 0;
-      min-height: 0;
-      object-fit: contain;
-      object-position: center;
-    }
-
-    .work-set .image-a img,
-    .work-set .image-c img { object-position: left center; }
-
-    .work-set .image-b img,
-    .work-set .image-d img { object-position: right center; }
 
     @media (max-width: 640px) {
+      :root {
+        --page-pad: 16px;
+      }
+
+      body {
+        overflow: auto;
+      }
+
+      .page,
+      .landing {
+        min-height: 100dvh;
+      }
+
       .nav-square {
         top: 16px;
         font-size: 1.6rem;
@@ -206,107 +345,203 @@
         right: 16px;
       }
 
-      .work-gallery {
-        --work-image-gap: 48px;
-        row-gap: var(--work-image-gap);
-        padding: 105px 16px 72px;
+      .panel-shell {
+        width: min(
+          100%,
+          calc((100dvh - (var(--page-pad) * 2)) * var(--panel-ratio))
+        );
       }
 
-      .work-set {
+      .overlay-title span {
+        font-size: clamp(2.2rem, 8vw, 4.1rem);
+      }
+
+      .contact-panel {
+        inset: 28% 16px 20px;
         grid-template-columns: minmax(0, 1fr);
-        row-gap: var(--work-image-gap);
-        min-height: 0;
+        grid-template-rows: none;
+        align-content: space-between;
       }
+    }
 
-      .work-set figure,
-      .work-set .image-a,
-      .work-set .image-b,
-      .work-set .image-c,
-      .work-set .image-d,
-      .work-set .image-e,
-      .work-set .image-f {
-        grid-area: auto;
-        justify-self: center;
-        width: min(88%, 55dvh);
-        height: auto;
+    .about-panel {
+      position: absolute;
+      z-index: 4;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 280ms ease;
+      inset: 68px auto 68px 28px;
+      width: calc(47vw - 28px);
+      display: grid;
+      align-content: safe center;
+      justify-content: stretch;
+      padding: 0;
+      overflow-y: auto;
+      text-align: left;
+    }
+
+    .about-copy-inner {
+      font-size: var(--copy-size);
+      font-weight: 400;
+    }
+
+    .about-copy-inner p {
+      margin: 0;
+    }
+
+    .about-copy-inner p + p {
+      margin-top: 1.59em;
+    }
+
+    @media (max-width: 900px) {
+      .about-panel {
+        width: min(calc(100vw - 56px), 38rem);
       }
+    }
 
-      .work-set .image-e,
-      .work-set .image-f {
-        width: min(52%, 32dvh);
-      }
-
-      .work-set img {
-        height: auto;
-        max-height: 72dvh;
+    @media (max-width: 640px) {
+      .about-panel {
+        left: 16px;
+        width: calc(100vw - 32px);
       }
     }
   </style>
 </head>
 <body>
   <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
-  <a class="nav-square left" href="index.html#home" aria-label="A — home slideshow">A</a>
-  <button class="nav-square right" type="button" aria-label="O — navigation" aria-controls="siteNav" aria-expanded="false">O</button>
-  <nav class="site-nav right" id="siteNav" aria-label="Main navigation" hidden>
-    <a href="work.html" aria-current="page">Work</a>
-    <a href="index.html#about">About</a>
-    <a href="index.html#contact">Contact</a>
-  </nav>
 
-  <main class="work-gallery" aria-label="Selected work by Actual Office">
-    <div class="work-set">
-      <figure class="image-a"><img src="images/00_AO_CO.jpg" alt="Actual Office Cherry Orchard" decoding="async"></figure>
+  <div class="landing" id="landing">
+    <div class="landing-stage">
+      <div class="panel-shell" aria-hidden="true">
+        <div class="overlay-title">
+          <span>Actual.</span>
+        </div>
+      </div>
     </div>
-    <div class="work-set">
-      <figure class="image-b"><img src="images/01_AO_CO.jpg" alt="Actual Office Cherry Orchard Entrance Column Brickwork" loading="lazy" decoding="async"></figure>
+  </div>
+
+  <div class="page">
+    <a class="nav-square left" href="#home" aria-label="A — home slideshow">A</a>
+    <button class="nav-square right" type="button" aria-label="O — navigation" aria-controls="siteNav" aria-expanded="false">O</button>
+    <nav class="site-nav right" id="siteNav" aria-label="Main navigation" hidden>
+      <a href="work.html">Work</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <section class="about-panel" id="aboutPanel" aria-label="About Actual Office" inert>
+      <div class="about-copy-inner">
+        <p>
+          Actual Office is a London and Belfast based architecture and interior design studio delivering
+          considered designs for thoughtful clients across residential and luxury fit-out projects.
+          Conceptual clarity, craftsmanship and human experience guide everything we do.
+        </p>
+        <p>
+          Our work balances rigorous thinking with an exploratory design process, informed by
+          technical expertise and an intuitive understanding of construction and detail.
+        </p>
+        <p>
+          Working closely with specialist makers, we celebrate materials for their inherent qualities
+          and ability to endure, creating spaces that enhance the everyday.
+        </p>
+        <p>
+          Our work has received recognition across the architecture and design community, both in the UK and internationally.
+        </p>
+      </div>
+    </section>
+
+    <section class="contact-panel" id="contactPanel" aria-label="Contact Actual Office" inert>
+      <address>
+        Actual Office<br>
+        42 Theobalds Road<br>
+        London<br>
+        WC1X 8NW
+      </address>
+      <p>If you have a project or any other queries, please get in touch.</p>
+      <p class="contact-enquiries">
+        General Enquiries<br>
+        <a href="mailto:mail@actualoffice.com">mail@actualoffice.com</a>
+      </p>
+      <p class="contact-socials">
+        <a href="https://www.instagram.com/actual.office/" target="_blank" rel="noreferrer">Instagram</a><br>
+        <a href="https://uk.linkedin.com/company/actualoffice" target="_blank" rel="noreferrer">LinkedIn</a>
+      </p>
+    </section>
+
+    <div class="stage">
+      <div class="panel-shell">
+        <div class="panel">
+          <div class="slideshow" aria-label="Actual Office selected work">
+            <figure class="slide is-active"><div class="slide-frame"><img src="images/00_AO_CO.jpg" alt="Actual Office Cherry Orchard"></div></figure>
+            <figure class="slide"><div class="slide-frame"><img src="images/01_AO_CO.jpg" alt="Actual Office Cherry Orchard Entrance Column Brickwork"></div></figure>
+            <figure class="slide"><div class="slide-frame"><img src="images/02_AO_CO.jpg" alt="Actual Office Cherry Orchard White Oiled Joinery Shared Living"></div></figure>
+            <figure class="slide"><div class="slide-frame"><img src="images/03_AO_M1.jpg" alt="Actual Office Steel Model"></div></figure>
+            <figure class="slide"><div class="slide-frame"><img src="images/17_AO_OX.jpg" alt="Actual Office Oxford House External Residential Building"></div></figure>
+            <figure class="slide"><div class="slide-frame"><img src="images/18_AO_OX.jpg" alt="Actual Office Oxford House Kitchen Dining Area"></div></figure>
+            <figure class="slide"><div class="slide-frame"><img src="images/04_AO_CO.jpg" alt="Actual Office Cherry Orchard Reception Stainless Reception Desk"></div></figure>
+            <figure class="slide"><div class="slide-frame"><img src="images/05_AO_CO.jpg" alt="Actual Office Cherry Orchard Bespoke Table Wassily Chair"></div></figure>
+            <figure class="slide"><div class="slide-frame"><img src="images/06_AO_CO.jpg" alt="Actual Office Cherry Orchard Lobby Column Brickwork Desk"></div></figure>
+            <figure class="slide"><div class="slide-frame"><img src="images/07_AO_PR.jpg" alt="Actual Office Oval House Walnut Portal Norr11 Fave Chair"></div></figure>
+            <figure class="slide"><div class="slide-frame"><img src="images/08_AO_CO.jpg" alt="Actual Office Cherry Orchard Circular Cove Ceiling"></div></figure>
+            <figure class="slide"><div class="slide-frame"><img src="images/09_AO_PR.jpg" alt="Actual Office Oval House Normann Copenhagen Tube Lounge Chair Hay Sofa Stainless Coffee Table"></div></figure>
+            <figure class="slide"><div class="slide-frame"><img src="images/10_AO_CO.jpg" alt="Actual Office Cherry Orchard Knoll Wassily Chair Soft Voile"></div></figure>
+            <figure class="slide"><div class="slide-frame"><img src="images/11_AO_CO.jpg" alt="Actual Office Cherry Orchard Oak Joinery Stainless Kitchen"></div></figure>
+            <figure class="slide"><div class="slide-frame"><img src="images/12_AO_CO.jpg" alt="Actual Office Cherry Orchard Audo Chair Soft Voile"></div></figure>
+            <figure class="slide"><div class="slide-frame"><img src="images/13_AO_CO.jpg" alt="Actual Office Cherry Orchard Stainless Steel Desk Soft White Brick"></div></figure>
+            <figure class="slide"><div class="slide-frame"><img src="images/14_AO_PR.jpg" alt="Actual Office Oval House Walnut Portal Norr11 Tilt Coffee Table Fave Chair"></div></figure>
+            <figure class="slide"><div class="slide-frame"><img src="images/15_AO_CO.jpg" alt="Actual Office Cherry Orchard White Oiled Oak Window"></div></figure>
+            <figure class="slide"><div class="slide-frame"><img src="images/16_AO_CO.jpg" alt="Actual Office Cherry Orchard Green Post Box"></div></figure>
+          </div>
+
+        </div>
+
+        <div class="overlay-title" aria-hidden="true">
+          <span>Actual.</span>
+        </div>
+      </div>
     </div>
-    <div class="work-set">
-      <figure class="image-c"><img src="images/02_AO_CO.jpg" alt="Actual Office Cherry Orchard White Oiled Joinery Shared Living" loading="lazy" decoding="async"></figure>
-    </div>
-    <div class="work-set">
-      <figure class="image-d"><img src="images/17_AO_OX.jpg" alt="Actual Office Oxford House External Residential Building" loading="lazy" decoding="async"></figure>
-    </div>
-    <div class="work-set">
-      <figure class="image-a"><img src="images/18_AO_OX.jpg" alt="Actual Office Oxford House Kitchen Dining Area" loading="lazy" decoding="async"></figure>
-      <figure class="image-e"><img src="images/03_AO_M1.jpg" alt="Actual Office Steel Model" decoding="async"></figure>
-    </div>
-    <div class="work-set">
-      <figure class="image-f"><img src="images/04_AO_CO.jpg" alt="Actual Office Cherry Orchard Reception Stainless Reception Desk" loading="lazy" decoding="async"></figure>
-      <figure class="image-b"><img src="images/05_AO_CO.jpg" alt="Actual Office Cherry Orchard Bespoke Table Wassily Chair" loading="lazy" decoding="async"></figure>
-    </div>
-    <div class="work-set">
-      <figure class="image-a"><img src="images/06_AO_CO.jpg" alt="Actual Office Cherry Orchard Lobby Column Brickwork Desk" loading="lazy" decoding="async"></figure>
-      <figure class="image-b"><img src="images/07_AO_PR.jpg" alt="Actual Office Oval House Walnut Portal Norr11 Fave Chair" loading="lazy" decoding="async"></figure>
-    </div>
-    <div class="work-set">
-      <figure class="image-a"><img src="images/08_AO_CO.jpg" alt="Actual Office Cherry Orchard Circular Cove Ceiling" loading="lazy" decoding="async"></figure>
-    </div>
-    <div class="work-set">
-      <figure class="image-b"><img src="images/09_AO_PR.jpg" alt="Actual Office Oval House Normann Copenhagen Tube Lounge Chair Hay Sofa Stainless Coffee Table" loading="lazy" decoding="async"></figure>
-    </div>
-    <div class="work-set">
-      <figure class="image-a"><img src="images/10_AO_CO.jpg" alt="Actual Office Cherry Orchard Knoll Wassily Chair Soft Voile" loading="lazy" decoding="async"></figure>
-      <figure class="image-e"><img src="images/11_AO_CO.jpg" alt="Actual Office Cherry Orchard Oak Joinery Stainless Kitchen" loading="lazy" decoding="async"></figure>
-    </div>
-    <div class="work-set">
-      <figure class="image-f"><img src="images/12_AO_CO.jpg" alt="Actual Office Cherry Orchard Audo Chair Soft Voile" loading="lazy" decoding="async"></figure>
-      <figure class="image-b"><img src="images/13_AO_CO.jpg" alt="Actual Office Cherry Orchard Stainless Steel Desk Soft White Brick" loading="lazy" decoding="async"></figure>
-    </div>
-    <div class="work-set">
-      <figure class="image-a"><img src="images/14_AO_PR.jpg" alt="Actual Office Oval House Walnut Portal Norr11 Tilt Coffee Table Fave Chair" loading="lazy" decoding="async"></figure>
-      <figure class="image-b"><img src="images/15_AO_CO.jpg" alt="Actual Office Cherry Orchard White Oiled Oak Window" loading="lazy" decoding="async"></figure>
-    </div>
-    <div class="work-set">
-      <figure class="image-a"><img src="images/16_AO_CO.jpg" alt="Actual Office Cherry Orchard Green Post Box" loading="lazy" decoding="async"></figure>
-    </div>
-  </main>
+  </div>
 
   <script>
     const cursorDot = document.getElementById('cursorDot');
+    const landing = document.getElementById('landing');
+    const page = document.querySelector('.page');
     const navButtons = document.querySelectorAll('button.nav-square');
     const siteNav = document.getElementById('siteNav');
     const navLinks = siteNav.querySelectorAll('a');
+    const aboutPanel = document.getElementById('aboutPanel');
+    const contactPanel = document.getElementById('contactPanel');
     let activeNavButton;
+    const slideshow = document.querySelector('.slideshow');
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    let activeIndex = 0;
+
+    function showSlide(index) {
+      slides[activeIndex].classList.remove('is-active');
+      activeIndex = (index + slides.length) % slides.length;
+      slides[activeIndex].classList.add('is-active');
+    }
+
+    function showPage() {
+      closeNav(true);
+      const hash = window.location.hash;
+      const isAbout = hash === '#about';
+      const isContact = hash === '#contact';
+      page.classList.toggle('is-about', isAbout);
+      page.classList.toggle('is-contact', isContact);
+      aboutPanel.inert = !isAbout;
+      contactPanel.inert = !isContact;
+      const currentPage = isAbout || isContact ? hash : null;
+      if (hash === '#home') landing.classList.add('hidden');
+
+      navLinks.forEach((link) => {
+        if (link.hash === currentPage) {
+          link.setAttribute('aria-current', 'page');
+        } else {
+          link.removeAttribute('aria-current');
+        }
+      });
+    }
 
     function closeNav(restoreFocus = false) {
       if (!activeNavButton) return;
@@ -320,6 +555,10 @@
       if (!cursorDot) return;
       cursorDot.style.left = `${event.clientX}px`;
       cursorDot.style.top = `${event.clientY}px`;
+    });
+
+    landing.addEventListener('click', () => {
+      landing.classList.add('hidden');
     });
 
     navButtons.forEach((button) => {
@@ -337,12 +576,27 @@
       });
     });
 
+    document.querySelector('.nav-square.left').addEventListener('click', () => {
+      closeNav();
+      landing.classList.add('hidden');
+    });
+
     siteNav.addEventListener('click', (event) => {
       if (event.target.closest('a')) closeNav(true);
     });
 
     document.addEventListener('click', (event) => {
-      if (!event.target.closest('.nav-square, .site-nav')) closeNav();
+      if (event.target.closest('.nav-square, .site-nav')) return;
+
+      if (activeNavButton) {
+        closeNav();
+      } else if (!event.target.closest('a, .about-panel, .contact-panel')) {
+        if (page.classList.contains('is-contact')) {
+          window.location.hash = '#about';
+        } else if (page.classList.contains('is-about')) {
+          window.location.hash = '#home';
+        }
+      }
     });
 
     document.addEventListener('keydown', (event) => {
@@ -351,7 +605,28 @@
       }
     });
 
-    window.addEventListener('pagehide', () => closeNav());
+    window.addEventListener('hashchange', showPage);
+    if (['#home', '#work', '#about', '#contact'].includes(window.location.hash)) {
+      landing.classList.add('hidden');
+    }
+    showPage();
+
+    slideshow.addEventListener('click', (event) => {
+      const photo = event.target;
+      if (!photo.matches('.slide.is-active img') || !photo.naturalWidth || !photo.naturalHeight) return;
+
+      // object-fit: contain can leave blank space inside the image element.
+      const bounds = photo.getBoundingClientRect();
+      const scale = Math.min(bounds.width / photo.naturalWidth, bounds.height / photo.naturalHeight);
+      const centerX = bounds.left + bounds.width / 2;
+      const centerY = bounds.top + bounds.height / 2;
+      const offsetX = event.clientX - centerX;
+      const offsetY = event.clientY - centerY;
+      if (Math.abs(offsetX) > photo.naturalWidth * scale / 2 ||
+          Math.abs(offsetY) > photo.naturalHeight * scale / 2) return;
+
+      showSlide(activeIndex + (offsetX < 0 ? -1 : 1));
+    });
   </script>
 </body>
 </html>

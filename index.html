@@ -241,7 +241,6 @@
       white-space: nowrap;
     }
 
-    .about-panel,
     .contact-panel {
       position: absolute;
       inset: 0;
@@ -269,7 +268,6 @@
       pointer-events: auto;
     }
 
-    .about-edge,
     .contact-edge {
       position: absolute;
       top: 0;
@@ -278,17 +276,14 @@
       font-weight: 700;
     }
 
-    .about-edge.left,
     .contact-edge.left {
       left: 0;
     }
 
-    .about-edge.right,
     .contact-edge.right {
       right: 0;
     }
 
-    .about-copy,
     .contact-copy {
       position: absolute;
       inset: 0;
@@ -299,7 +294,6 @@
       padding: 0 28px;
     }
 
-    .about-copy-inner,
     .contact-copy-inner {
       max-width: 34rem;
       font-size: clamp(0.95rem, 1.2vw, 1.05rem);
@@ -310,10 +304,6 @@
       overflow-wrap: normal;
     }
 
-    .about-copy-inner {
-      font-weight: 300;
-    }
-
     .contact-copy-inner,
     .contact-copy-inner p,
     .contact-email,
@@ -321,17 +311,14 @@
       font-weight: 700;
     }
 
-    .about-copy-inner p,
     .contact-copy-inner p {
       margin: 0;
     }
 
-    .about-copy-inner p + p,
     .contact-copy-inner p + p {
       margin-top: 28px;
     }
 
-    .about-link,
     .contact-link {
       position: absolute;
       bottom: 10px;
@@ -344,12 +331,10 @@
       white-space: nowrap;
     }
 
-    .about-link.left,
     .contact-link.left {
       left: 0;
     }
 
-    .about-link.right,
     .contact-link.right {
       right: 0;
     }
@@ -419,21 +404,23 @@
         font-size: clamp(2.2rem, 8vw, 4.1rem);
       }
 
-      .about-copy-inner,
       .contact-copy-inner {
         font-size: 0.96rem;
         line-height: 1.2;
       }
 
-      .about-link,
       .contact-link {
         bottom: 12px;
         line-height: 1.35;
       }
     }
 
-    .about-copy {
-      position: fixed;
+    .about-panel {
+      position: absolute;
+      z-index: 4;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 280ms ease;
       inset: 68px auto 68px 28px;
       width: min(33vw, 38rem);
       display: grid;
@@ -445,19 +432,26 @@
     }
 
     .about-copy-inner {
-      max-width: none;
       font-size: 1.1rem;
       font-weight: 400;
     }
 
+    .about-copy-inner p {
+      margin: 0;
+    }
+
+    .about-copy-inner p + p {
+      margin-top: 28px;
+    }
+
     @media (max-width: 900px) {
-      .about-copy {
+      .about-panel {
         width: min(calc(100vw - 56px), 38rem);
       }
     }
 
     @media (max-width: 640px) {
-      .about-copy {
+      .about-panel {
         left: 16px;
         width: calc(100vw - 32px);
       }
@@ -486,6 +480,24 @@
       <a href="#contact">Contact</a>
     </nav>
 
+    <section class="about-panel" id="aboutPanel" aria-label="About Actual Office" inert>
+      <div class="about-copy-inner">
+        <p>
+          Actual Office is a London and Belfast based architecture and interior design studio delivering
+          considered designs for thoughtful clients across residential and luxury fit-out projects.
+          Conceptual clarity, craftsmanship and human experience guide everything we do.
+        </p>
+        <p>
+          Our work balances rigorous thinking with an exploratory design process, informed by
+          technical expertise and an intuitive understanding of construction and detail.
+        </p>
+        <p>
+          Working closely with specialist makers, we celebrate materials for their inherent qualities
+          and ability to endure, creating spaces that enhance the everyday.
+        </p>
+      </div>
+    </section>
+
     <div class="stage">
       <div class="panel-shell">
         <div class="panel">
@@ -509,30 +521,6 @@
             <figure class="slide"><div class="slide-frame"><img src="images/14_AO_PR.jpg" alt="Actual Office Oval House Walnut Portal Norr11 Tilt Coffee Table Fave Chair"></div></figure>
             <figure class="slide"><div class="slide-frame"><img src="images/15_AO_CO.jpg" alt="Actual Office Cherry Orchard White Oiled Oak Window"></div></figure>
             <figure class="slide"><div class="slide-frame"><img src="images/16_AO_CO.jpg" alt="Actual Office Cherry Orchard Green Post Box"></div></figure>
-          </div>
-
-          <div class="about-panel" id="aboutPanel" inert>
-            <div class="about-edge left">Actual</div>
-            <div class="about-edge right">Office</div>
-            <div class="about-copy">
-              <div class="about-copy-inner">
-                <p>
-                  Actual Office is a London and Belfast based architecture and interior design studio delivering
-                  considered designs for thoughtful clients across residential and luxury fit-out projects.
-                  Conceptual clarity, craftsmanship and human experience guide everything we do.
-                </p>
-                <p>
-                  Our work balances rigorous thinking with an exploratory design process, informed by
-                  technical expertise and an intuitive understanding of construction and detail.
-                </p>
-                <p>
-                  Working closely with specialist makers, we celebrate materials for their inherent qualities
-                  and ability to endure, creating spaces that enhance the everyday.
-                </p>
-              </div>
-            </div>
-            <a class="about-link left" href="#contact">Contact</a>
-            <a class="about-link right" href="https://www.instagram.com/actual.office/" target="_blank" rel="noreferrer">Instagram</a>
           </div>
 
           <div class="contact-panel" id="contactPanel" inert>
@@ -662,7 +650,7 @@
 
       if (activeNavButton) {
         closeNav();
-      } else if (!event.target.closest('a')) {
+      } else if (!event.target.closest('a, .about-panel')) {
         if (page.classList.contains('is-contact')) {
           window.location.hash = '#about';
         } else if (page.classList.contains('is-about')) {

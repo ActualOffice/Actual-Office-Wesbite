@@ -120,24 +120,67 @@
 
     .work-gallery {
       display: grid;
+      row-gap: 4.5dvh;
+      padding: 11dvh 14% 10dvh;
+    }
+
+    .work-set {
+      display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       align-items: center;
-      row-gap: clamp(96px, 18dvh, 240px);
-      padding: 20dvh 0;
+      min-height: 79dvh;
     }
 
-    .work-gallery figure {
+    .work-set figure {
       display: grid;
-      place-items: center;
+      grid-row: 1;
+      align-items: center;
+      width: min(88%, 63.2dvh);
+      height: 79dvh;
     }
 
-    .work-gallery img {
-      display: block;
-      width: auto;
-      height: auto;
-      max-width: 58%;
-      max-height: 58dvh;
+    .work-set .image-a,
+    .work-set .image-c {
+      grid-column: 1;
+      justify-self: start;
     }
+
+    .work-set .image-b,
+    .work-set .image-d {
+      grid-column: 2;
+      justify-self: end;
+    }
+
+    .work-set .image-c,
+    .work-set .image-d {
+      width: min(136%, 98dvh);
+    }
+
+    .work-set .image-e,
+    .work-set .image-f {
+      justify-self: center;
+      width: min(52%, 41dvh);
+      height: 42dvh;
+    }
+
+    .work-set .image-e { grid-column: 2; }
+    .work-set .image-f { grid-column: 1; }
+
+    .work-set img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      min-width: 0;
+      min-height: 0;
+      object-fit: contain;
+      object-position: center;
+    }
+
+    .work-set .image-a img,
+    .work-set .image-c img { object-position: left center; }
+
+    .work-set .image-b img,
+    .work-set .image-d img { object-position: right center; }
 
     @media (max-width: 640px) {
       .nav-square {
@@ -163,13 +206,36 @@
       }
 
       .work-gallery {
-        grid-template-columns: 1fr;
-        row-gap: 72px;
+        row-gap: 64px;
         padding: 105px 16px 72px;
       }
 
-      .work-gallery img {
-        max-width: 88%;
+      .work-set {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 24px;
+        min-height: 0;
+      }
+
+      .work-set figure,
+      .work-set .image-a,
+      .work-set .image-b,
+      .work-set .image-c,
+      .work-set .image-d,
+      .work-set .image-e,
+      .work-set .image-f {
+        grid-area: auto;
+        justify-self: center;
+        width: min(88%, 55dvh);
+        height: auto;
+      }
+
+      .work-set .image-e,
+      .work-set .image-f {
+        width: min(52%, 32dvh);
+      }
+
+      .work-set img {
+        height: auto;
         max-height: 72dvh;
       }
     }
@@ -186,25 +252,51 @@
   </nav>
 
   <main class="work-gallery" aria-label="Selected work by Actual Office">
-    <figure><img src="images/00_AO_CO.jpg" alt="Actual Office Cherry Orchard" decoding="async"></figure>
-    <figure><img src="images/03_AO_M1.jpg" alt="Actual Office Steel Model" decoding="async"></figure>
-    <figure><img src="images/01_AO_CO.jpg" alt="Actual Office Cherry Orchard Entrance Column Brickwork" loading="lazy" decoding="async"></figure>
-    <figure><img src="images/02_AO_CO.jpg" alt="Actual Office Cherry Orchard White Oiled Joinery Shared Living" loading="lazy" decoding="async"></figure>
-    <figure><img src="images/17_AO_OX.jpg" alt="Actual Office Oxford House External Residential Building" loading="lazy" decoding="async"></figure>
-    <figure><img src="images/18_AO_OX.jpg" alt="Actual Office Oxford House Kitchen Dining Area" loading="lazy" decoding="async"></figure>
-    <figure><img src="images/04_AO_CO.jpg" alt="Actual Office Cherry Orchard Reception Stainless Reception Desk" loading="lazy" decoding="async"></figure>
-    <figure><img src="images/05_AO_CO.jpg" alt="Actual Office Cherry Orchard Bespoke Table Wassily Chair" loading="lazy" decoding="async"></figure>
-    <figure><img src="images/06_AO_CO.jpg" alt="Actual Office Cherry Orchard Lobby Column Brickwork Desk" loading="lazy" decoding="async"></figure>
-    <figure><img src="images/07_AO_PR.jpg" alt="Actual Office Oval House Walnut Portal Norr11 Fave Chair" loading="lazy" decoding="async"></figure>
-    <figure><img src="images/08_AO_CO.jpg" alt="Actual Office Cherry Orchard Circular Cove Ceiling" loading="lazy" decoding="async"></figure>
-    <figure><img src="images/09_AO_PR.jpg" alt="Actual Office Oval House Normann Copenhagen Tube Lounge Chair Hay Sofa Stainless Coffee Table" loading="lazy" decoding="async"></figure>
-    <figure><img src="images/10_AO_CO.jpg" alt="Actual Office Cherry Orchard Knoll Wassily Chair Soft Voile" loading="lazy" decoding="async"></figure>
-    <figure><img src="images/11_AO_CO.jpg" alt="Actual Office Cherry Orchard Oak Joinery Stainless Kitchen" loading="lazy" decoding="async"></figure>
-    <figure><img src="images/12_AO_CO.jpg" alt="Actual Office Cherry Orchard Audo Chair Soft Voile" loading="lazy" decoding="async"></figure>
-    <figure><img src="images/13_AO_CO.jpg" alt="Actual Office Cherry Orchard Stainless Steel Desk Soft White Brick" loading="lazy" decoding="async"></figure>
-    <figure><img src="images/14_AO_PR.jpg" alt="Actual Office Oval House Walnut Portal Norr11 Tilt Coffee Table Fave Chair" loading="lazy" decoding="async"></figure>
-    <figure><img src="images/15_AO_CO.jpg" alt="Actual Office Cherry Orchard White Oiled Oak Window" loading="lazy" decoding="async"></figure>
-    <figure><img src="images/16_AO_CO.jpg" alt="Actual Office Cherry Orchard Green Post Box" loading="lazy" decoding="async"></figure>
+    <div class="work-set">
+      <figure class="image-a"><img src="images/00_AO_CO.jpg" alt="Actual Office Cherry Orchard" decoding="async"></figure>
+    </div>
+    <div class="work-set">
+      <figure class="image-b"><img src="images/01_AO_CO.jpg" alt="Actual Office Cherry Orchard Entrance Column Brickwork" loading="lazy" decoding="async"></figure>
+    </div>
+    <div class="work-set">
+      <figure class="image-c"><img src="images/02_AO_CO.jpg" alt="Actual Office Cherry Orchard White Oiled Joinery Shared Living" loading="lazy" decoding="async"></figure>
+    </div>
+    <div class="work-set">
+      <figure class="image-d"><img src="images/17_AO_OX.jpg" alt="Actual Office Oxford House External Residential Building" loading="lazy" decoding="async"></figure>
+    </div>
+    <div class="work-set">
+      <figure class="image-a"><img src="images/18_AO_OX.jpg" alt="Actual Office Oxford House Kitchen Dining Area" loading="lazy" decoding="async"></figure>
+      <figure class="image-e"><img src="images/03_AO_M1.jpg" alt="Actual Office Steel Model" decoding="async"></figure>
+    </div>
+    <div class="work-set">
+      <figure class="image-f"><img src="images/04_AO_CO.jpg" alt="Actual Office Cherry Orchard Reception Stainless Reception Desk" loading="lazy" decoding="async"></figure>
+      <figure class="image-b"><img src="images/05_AO_CO.jpg" alt="Actual Office Cherry Orchard Bespoke Table Wassily Chair" loading="lazy" decoding="async"></figure>
+    </div>
+    <div class="work-set">
+      <figure class="image-a"><img src="images/06_AO_CO.jpg" alt="Actual Office Cherry Orchard Lobby Column Brickwork Desk" loading="lazy" decoding="async"></figure>
+      <figure class="image-b"><img src="images/07_AO_PR.jpg" alt="Actual Office Oval House Walnut Portal Norr11 Fave Chair" loading="lazy" decoding="async"></figure>
+    </div>
+    <div class="work-set">
+      <figure class="image-a"><img src="images/08_AO_CO.jpg" alt="Actual Office Cherry Orchard Circular Cove Ceiling" loading="lazy" decoding="async"></figure>
+    </div>
+    <div class="work-set">
+      <figure class="image-b"><img src="images/09_AO_PR.jpg" alt="Actual Office Oval House Normann Copenhagen Tube Lounge Chair Hay Sofa Stainless Coffee Table" loading="lazy" decoding="async"></figure>
+    </div>
+    <div class="work-set">
+      <figure class="image-a"><img src="images/10_AO_CO.jpg" alt="Actual Office Cherry Orchard Knoll Wassily Chair Soft Voile" loading="lazy" decoding="async"></figure>
+      <figure class="image-e"><img src="images/11_AO_CO.jpg" alt="Actual Office Cherry Orchard Oak Joinery Stainless Kitchen" loading="lazy" decoding="async"></figure>
+    </div>
+    <div class="work-set">
+      <figure class="image-f"><img src="images/12_AO_CO.jpg" alt="Actual Office Cherry Orchard Audo Chair Soft Voile" loading="lazy" decoding="async"></figure>
+      <figure class="image-b"><img src="images/13_AO_CO.jpg" alt="Actual Office Cherry Orchard Stainless Steel Desk Soft White Brick" loading="lazy" decoding="async"></figure>
+    </div>
+    <div class="work-set">
+      <figure class="image-a"><img src="images/14_AO_PR.jpg" alt="Actual Office Oval House Walnut Portal Norr11 Tilt Coffee Table Fave Chair" loading="lazy" decoding="async"></figure>
+      <figure class="image-b"><img src="images/15_AO_CO.jpg" alt="Actual Office Cherry Orchard White Oiled Oak Window" loading="lazy" decoding="async"></figure>
+    </div>
+    <div class="work-set">
+      <figure class="image-a"><img src="images/16_AO_CO.jpg" alt="Actual Office Cherry Orchard Green Post Box" loading="lazy" decoding="async"></figure>
+    </div>
   </main>
 
   <script>

@@ -197,6 +197,7 @@
       }
 
       .site-nav {
+        background: transparent;
         top: 48px;
         left: 16px;
       }
@@ -206,13 +207,14 @@
       }
 
       .work-gallery {
-        row-gap: 64px;
+        --work-image-gap: 48px;
+        row-gap: var(--work-image-gap);
         padding: 105px 16px 72px;
       }
 
       .work-set {
         grid-template-columns: minmax(0, 1fr);
-        gap: 24px;
+        row-gap: var(--work-image-gap);
         min-height: 0;
       }
 

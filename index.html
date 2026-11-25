@@ -243,15 +243,31 @@
 
     .contact-panel {
       position: absolute;
-      inset: 0;
+      inset: 45.5% 28px 24px;
+      z-index: 4;
+      display: grid;
+      grid-template-columns: 39% minmax(0, 1fr);
+      grid-template-rows: repeat(2, minmax(min-content, 1fr)) auto;
+      align-items: start;
+      row-gap: 20px;
+      overflow-y: auto;
       opacity: 0;
       pointer-events: none;
       transition: opacity 280ms ease;
-      color: #050505;
-      display: flex;
-      flex-direction: column;
-      padding: 0 0 22px;
-      z-index: 4;
+      font-size: 1.1rem;
+      font-weight: 400;
+      line-height: 1.2;
+    }
+
+    .contact-panel address,
+    .contact-panel p {
+      margin: 0;
+      font-style: normal;
+    }
+
+    .contact-enquiries,
+    .contact-socials {
+      grid-column: 1;
     }
 
     .page.is-about .slideshow,
@@ -266,77 +282,6 @@
     .page.is-contact .contact-panel {
       opacity: 1;
       pointer-events: auto;
-    }
-
-    .contact-edge {
-      position: absolute;
-      top: 0;
-      font-size: clamp(1.1rem, 1.8vw, 1.35rem);
-      line-height: 1;
-      font-weight: 700;
-    }
-
-    .contact-edge.left {
-      left: 0;
-    }
-
-    .contact-edge.right {
-      right: 0;
-    }
-
-    .contact-copy {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 0 28px;
-    }
-
-    .contact-copy-inner {
-      max-width: 34rem;
-      font-size: clamp(0.95rem, 1.2vw, 1.05rem);
-      line-height: 1.18;
-      letter-spacing: 0;
-      hyphens: none;
-      word-break: normal;
-      overflow-wrap: normal;
-    }
-
-    .contact-copy-inner,
-    .contact-copy-inner p,
-    .contact-email,
-    .contact-address {
-      font-weight: 700;
-    }
-
-    .contact-copy-inner p {
-      margin: 0;
-    }
-
-    .contact-copy-inner p + p {
-      margin-top: 28px;
-    }
-
-    .contact-link {
-      position: absolute;
-      bottom: 10px;
-      display: inline-block;
-      font-size: clamp(1.1rem, 1.8vw, 1.35rem);
-      line-height: 1.3;
-      color: #050505;
-      font-weight: 700;
-      padding: 0 0 4px;
-      white-space: nowrap;
-    }
-
-    .contact-link.left {
-      left: 0;
-    }
-
-    .contact-link.right {
-      right: 0;
     }
 
     @media (hover: none), (pointer: coarse) {
@@ -404,14 +349,11 @@
         font-size: clamp(2.2rem, 8vw, 4.1rem);
       }
 
-      .contact-copy-inner {
-        font-size: 0.96rem;
-        line-height: 1.2;
-      }
-
-      .contact-link {
-        bottom: 12px;
-        line-height: 1.35;
+      .contact-panel {
+        inset: 28% 16px 20px;
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-rows: none;
+        align-content: space-between;
       }
     }
 
@@ -501,6 +443,24 @@
       </div>
     </section>
 
+    <section class="contact-panel" id="contactPanel" aria-label="Contact Actual Office" inert>
+      <address>
+        Actual Office<br>
+        42 Theobalds Road<br>
+        London<br>
+        WC1X 8NW
+      </address>
+      <p>If you have a project or any other queries, please get in touch.</p>
+      <p class="contact-enquiries">
+        General Enquiries<br>
+        <a href="mailto:mail@actualoffice.com">mail@actualoffice.com</a>
+      </p>
+      <p class="contact-socials">
+        <a href="https://www.instagram.com/actual.office/" target="_blank" rel="noreferrer">Instagram</a><br>
+        <a href="https://uk.linkedin.com/company/actualoffice" target="_blank" rel="noreferrer">LinkedIn</a>
+      </p>
+    </section>
+
     <div class="stage">
       <div class="panel-shell">
         <div class="panel">
@@ -526,22 +486,6 @@
             <figure class="slide"><div class="slide-frame"><img src="images/16_AO_CO.jpg" alt="Actual Office Cherry Orchard Green Post Box"></div></figure>
           </div>
 
-          <div class="contact-panel" id="contactPanel" inert>
-            <div class="contact-edge left">Actual</div>
-            <div class="contact-edge right">Office</div>
-            <div class="contact-copy">
-              <div class="contact-copy-inner">
-                <p class="contact-email">mail@actualoffice.com</p>
-                <p class="contact-address">
-                  42 Theobalds Road<br>
-                  London<br>
-                  WC1X 8NW
-                </p>
-              </div>
-            </div>
-            <a class="contact-link left" href="#about">About</a>
-            <a class="contact-link right" href="https://www.instagram.com/actual.office/" target="_blank" rel="noreferrer">Instagram</a>
-          </div>
         </div>
 
         <div class="overlay-title" aria-hidden="true">
@@ -653,7 +597,7 @@
 
       if (activeNavButton) {
         closeNav();
-      } else if (!event.target.closest('a, .about-panel')) {
+      } else if (!event.target.closest('a, .about-panel, .contact-panel')) {
         if (page.classList.contains('is-contact')) {
           window.location.hash = '#about';
         } else if (page.classList.contains('is-about')) {
